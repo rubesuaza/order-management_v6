@@ -1,0 +1,121 @@
+============================= test session starts ==============================
+platform linux -- Python 3.13.11, pytest-9.0.2, pluggy-1.6.0 -- /root/agent_code_generator/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /root/agent_code_generator/workspaces/order_management_python/order-management_v6
+configfile: pyproject.toml
+testpaths: tests
+plugins: langsmith-0.6.6, anyio-3.7.1, cov-7.0.0
+collecting ... collected 69 items
+
+tests/unit/domain/test_address.py::TestAddress::test_create_valid_address PASSED [  1%]
+tests/unit/domain/test_address.py::TestAddress::test_address_is_immutable PASSED [  2%]
+tests/unit/domain/test_address.py::TestAddress::test_empty_street_raises_error PASSED [  4%]
+tests/unit/domain/test_address.py::TestAddress::test_empty_city_raises_error PASSED [  5%]
+tests/unit/domain/test_address.py::TestAddress::test_empty_state_raises_error PASSED [  7%]
+tests/unit/domain/test_address.py::TestAddress::test_empty_zip_code_raises_error PASSED [  8%]
+tests/unit/domain/test_address.py::TestAddress::test_empty_country_raises_error PASSED [ 10%]
+tests/unit/domain/test_money.py::TestMoney::test_create_money_with_valid_amount PASSED [ 11%]
+tests/unit/domain/test_money.py::TestMoney::test_create_money_zero PASSED [ 13%]
+tests/unit/domain/test_money.py::TestMoney::test_create_money_negative_raises_error PASSED [ 14%]
+tests/unit/domain/test_money.py::TestMoney::test_create_money_empty_currency_raises_error PASSED [ 15%]
+tests/unit/domain/test_money.py::TestMoney::test_add_money_same_currency PASSED [ 17%]
+tests/unit/domain/test_money.py::TestMoney::test_add_money_different_currency_raises_exception PASSED [ 18%]
+tests/unit/domain/test_money.py::TestMoney::test_subtract_money_same_currency PASSED [ 20%]
+tests/unit/domain/test_money.py::TestMoney::test_subtract_money_result_negative_raises_error PASSED [ 21%]
+tests/unit/domain/test_money.py::TestMoney::test_multiply_money_by_decimal PASSED [ 23%]
+tests/unit/domain/test_money.py::TestMoney::test_multiply_money_by_int PASSED [ 24%]
+tests/unit/domain/test_money.py::TestMoney::test_rmul_money PASSED       [ 26%]
+tests/unit/domain/test_money.py::TestMoney::test_equality_same_amount_and_currency PASSED [ 27%]
+tests/unit/domain/test_money.py::TestMoney::test_equality_different_amount PASSED [ 28%]
+tests/unit/domain/test_money.py::TestMoney::test_equality_different_currency PASSED [ 30%]
+tests/unit/domain/test_money.py::TestMoney::test_comparison_lt PASSED    [ 31%]
+tests/unit/domain/test_money.py::TestMoney::test_comparison_different_currency_raises_exception PASSED [ 33%]
+tests/unit/domain/test_money.py::TestMoney::test_zero_class_method PASSED [ 34%]
+tests/unit/domain/test_money.py::TestMoney::test_usd_class_method PASSED [ 36%]
+tests/unit/domain/test_order.py::TestOrder::test_create_order_with_factory_method PASSED [ 37%]
+tests/unit/domain/test_order.py::TestOrder::test_create_order_empty_items_raises_error PASSED [ 39%]
+tests/unit/domain/test_order.py::TestOrder::test_calculate_total_amount_single_item PASSED [ 40%]
+tests/unit/domain/test_order.py::TestOrder::test_calculate_total_amount_multiple_items PASSED [ 42%]
+tests/unit/domain/test_order.py::TestOrder::test_calculate_total_amount_different_currencies_raises_error PASSED [ 43%]
+tests/unit/domain/test_order.py::TestOrder::test_mark_as_paid_from_pending_success PASSED [ 44%]
+tests/unit/domain/test_order.py::TestOrder::test_mark_as_paid_amount_below_minimum_raises_exception PASSED [ 46%]
+tests/unit/domain/test_order.py::TestOrder::test_mark_as_paid_from_non_pending_raises_exception PASSED [ 47%]
+tests/unit/domain/test_order.py::TestOrder::test_mark_as_shipped_from_paid_success PASSED [ 49%]
+tests/unit/domain/test_order.py::TestOrder::test_mark_as_shipped_from_non_paid_raises_exception PASSED [ 50%]
+tests/unit/domain/test_order.py::TestOrder::test_cancel_from_pending_success PASSED [ 52%]
+tests/unit/domain/test_order.py::TestOrder::test_cancel_from_paid_success PASSED [ 53%]
+tests/unit/domain/test_order.py::TestOrder::test_cancel_from_shipped_raises_exception PASSED [ 55%]
+tests/unit/domain/test_order.py::TestOrder::test_add_item_to_pending_order PASSED [ 56%]
+tests/unit/domain/test_order.py::TestOrder::test_add_item_to_non_pending_raises_exception PASSED [ 57%]
+tests/unit/domain/test_order.py::TestOrder::test_add_item_different_currency_raises_error PASSED [ 59%]
+tests/unit/domain/test_order.py::TestOrder::test_remove_item_from_pending_order PASSED [ 60%]
+tests/unit/domain/test_order.py::TestOrder::test_remove_item_would_empty_order_raises_error PASSED [ 62%]
+tests/unit/domain/test_order.py::TestOrder::test_remove_item_from_non_pending_raises_exception PASSED [ 63%]
+tests/unit/domain/test_order.py::TestOrder::test_order_with_addresses PASSED [ 65%]
+tests/unit/domain/test_order_item.py::TestOrderItem::test_create_valid_order_item PASSED [ 66%]
+tests/unit/domain/test_order_item.py::TestOrderItem::test_create_order_item_negative_price_raises_exception PASSED [ 68%]
+tests/unit/domain/test_order_item.py::TestOrderItem::test_create_order_item_zero_quantity_raises_exception PASSED [ 69%]
+tests/unit/domain/test_order_item.py::TestOrderItem::test_create_order_item_negative_quantity_raises_exception PASSED [ 71%]
+tests/unit/domain/test_order_item.py::TestOrderItem::test_create_order_item_empty_product_name_raises_exception PASSED [ 72%]
+tests/unit/domain/test_order_item.py::TestOrderItem::test_calculate_subtotal PASSED [ 73%]
+tests/unit/domain/test_order_item.py::TestOrderItem::test_update_quantity_valid PASSED [ 75%]
+tests/unit/domain/test_order_item.py::TestOrderItem::test_update_quantity_zero_raises_exception PASSED [ 76%]
+tests/unit/domain/test_order_item.py::TestOrderItem::test_update_unit_price_valid PASSED [ 78%]
+tests/unit/domain/test_order_item.py::TestOrderItem::test_update_unit_price_negative_raises_exception PASSED [ 79%]
+tests/unit/domain/test_order_item.py::TestOrderItem::test_update_unit_price_different_currency_raises_exception PASSED [ 81%]
+tests/unit/infrastructure/adapters/output/persistence/test_mappers.py::TestOrderItemMapper::test_order_item_to_domain_maps_all_fields PASSED [ 82%]
+tests/unit/infrastructure/adapters/output/persistence/test_mappers.py::TestOrderItemMapper::test_order_item_to_model_maps_all_fields PASSED [ 84%]
+tests/unit/infrastructure/adapters/output/persistence/test_mappers.py::TestOrderMapper::test_order_to_model_maps_all_fields PASSED [ 85%]
+tests/unit/infrastructure/adapters/output/persistence/test_mappers.py::TestOrderMapper::test_order_to_domain_maps_all_fields PASSED [ 86%]
+tests/unit/infrastructure/adapters/output/persistence/test_mappers.py::TestOrderMapper::test_order_to_domain_roundtrip_preserves_data PASSED [ 88%]
+tests/unit/infrastructure/adapters/output/persistence/test_order_repository_impl.py::TestOrderRepositoryImpl::test_save_new_order_adds_to_session PASSED [ 89%]
+tests/unit/infrastructure/adapters/output/persistence/test_order_repository_impl.py::TestOrderRepositoryImpl::test_save_existing_order_updates_and_flush PASSED [ 91%]
+tests/unit/infrastructure/adapters/output/persistence/test_order_repository_impl.py::TestOrderRepositoryImpl::test_find_by_id_returns_none_when_not_found PASSED [ 92%]
+tests/unit/infrastructure/adapters/output/persistence/test_order_repository_impl.py::TestOrderRepositoryImpl::test_find_by_id_returns_domain_order_when_found PASSED [ 94%]
+tests/unit/infrastructure/adapters/output/persistence/test_order_repository_impl.py::TestOrderRepositoryImpl::test_find_by_customer_id_returns_empty_list_when_none PASSED [ 95%]
+tests/unit/infrastructure/adapters/output/persistence/test_order_repository_impl.py::TestOrderRepositoryImpl::test_find_by_customer_id_returns_list_of_orders PASSED [ 97%]
+tests/unit/infrastructure/adapters/output/persistence/test_order_repository_impl.py::TestOrderRepositoryImpl::test_delete_returns_false_when_order_not_found PASSED [ 98%]
+tests/unit/infrastructure/adapters/output/persistence/test_order_repository_impl.py::TestOrderRepositoryImpl::test_delete_returns_true_and_deletes_when_found PASSED [100%]
+
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.13.11-final-0 _______________
+
+Name                                                                                       Stmts   Miss  Cover   Missing
+------------------------------------------------------------------------------------------------------------------------
+src/order_management/__init__.py                                                               1      0   100%
+src/order_management/application/__init__.py                                                   0      0   100%
+src/order_management/application/ports/__init__.py                                             0      0   100%
+src/order_management/application/ports/input/__init__.py                                       0      0   100%
+src/order_management/application/ports/output/__init__.py                                      0      0   100%
+src/order_management/application/services/__init__.py                                          0      0   100%
+src/order_management/domain/__init__.py                                                        0      0   100%
+src/order_management/domain/exceptions/__init__.py                                             6      0   100%
+src/order_management/domain/exceptions/currency_mismatch_exception.py                          4      0   100%
+src/order_management/domain/exceptions/domain_error.py                                         4      0   100%
+src/order_management/domain/exceptions/entity_not_found_exception.py                           4      1    75%   12
+src/order_management/domain/exceptions/invalid_item_exception.py                               4      0   100%
+src/order_management/domain/exceptions/invalid_order_state_exception.py                        4      0   100%
+src/order_management/domain/models/__init__.py                                                 6      0   100%
+src/order_management/domain/models/address.py                                                 19      0   100%
+src/order_management/domain/models/money.py                                                   71     21    70%   34, 44, 46, 60, 70, 76, 85-91, 95-101, 105-111
+src/order_management/domain/models/order.py                                                   70      4    94%   39, 86, 122, 216
+src/order_management/domain/models/order_item.py                                              31      2    94%   35, 52
+src/order_management/domain/models/order_status.py                                             6      0   100%
+src/order_management/domain/ports/__init__.py                                                  3      0   100%
+src/order_management/domain/ports/order_repository.py                                         17      4    76%   27, 40, 53, 66
+src/order_management/domain/ports/payment_gateway_port.py                                     10      2    80%   33, 51
+src/order_management/infrastructure/__init__.py                                                0      0   100%
+src/order_management/infrastructure/adapters/__init__.py                                       0      0   100%
+src/order_management/infrastructure/adapters/input/__init__.py                                 0      0   100%
+src/order_management/infrastructure/adapters/output/__init__.py                                0      0   100%
+src/order_management/infrastructure/adapters/output/persistence/__init__.py                    2      0   100%
+src/order_management/infrastructure/adapters/output/persistence/mappers.py                    22      0   100%
+src/order_management/infrastructure/adapters/output/persistence/models.py                     29      1    97%   29
+src/order_management/infrastructure/adapters/output/persistence/order_repository_impl.py      44      1    98%   35
+src/order_management/infrastructure/config/__init__.py                                         0      0   100%
+src/order_management/infrastructure/config/database.py                                        16     16     0%   6-31
+src/order_management/infrastructure/config/settings.py                                         7      7     0%   6-21
+src/order_management/main.py                                                                   8      8     0%   6-24
+------------------------------------------------------------------------------------------------------------------------
+TOTAL                                                                                        388     67    83%
+============================== 69 passed in 1.31s ==============================
