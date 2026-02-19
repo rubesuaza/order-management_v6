@@ -4,7 +4,7 @@ SQLAlchemy implementation of OrderRepository port.
 
 from uuid import UUID
 
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 
 from order_management.domain.ports.order_repository import OrderRepository
 from order_management.domain.models import Order
@@ -47,6 +47,7 @@ class OrderRepositoryImpl(OrderRepository):
     def find_by_id(self, order_id: UUID) -> Order | None:
         row = (
             self._session.query(OrderModel)
+            .options(joinedload(OrderModel.items))
             .filter(OrderModel.id == str(order_id))
             .first()
         )
@@ -57,6 +58,7 @@ class OrderRepositoryImpl(OrderRepository):
     def find_by_customer_id(self, customer_id: UUID) -> list[Order]:
         rows = (
             self._session.query(OrderModel)
+            .options(joinedload(OrderModel.items))
             .filter(OrderModel.customer_id == str(customer_id))
             .all()
         )

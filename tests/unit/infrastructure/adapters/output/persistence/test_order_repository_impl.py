@@ -89,7 +89,9 @@ class TestOrderRepositoryImpl:
         session.flush.assert_called()
 
     def test_find_by_id_returns_none_when_not_found(self, repo, session):
-        session.query.return_value.filter.return_value.first.return_value = None
+        # find_by_id uses .options(joinedload(...)).filter(...).first()
+        chain = session.query.return_value.options.return_value.filter.return_value
+        chain.first.return_value = None
         order_id = uuid4()
         result = repo.find_by_id(order_id)
         assert result is None
@@ -115,7 +117,8 @@ class TestOrderRepositoryImpl:
             currency="USD",
         )
         order_row.items = [item_row]
-        session.query.return_value.filter.return_value.first.return_value = order_row
+        # find_by_id uses .options(joinedload(...)).filter(...).first()
+        session.query.return_value.options.return_value.filter.return_value.first.return_value = order_row
         result = repo.find_by_id(order_id)
         assert result is not None
         assert result.order_id == order_id
@@ -125,7 +128,8 @@ class TestOrderRepositoryImpl:
         assert result.items[0].product_name == "Found Product"
 
     def test_find_by_customer_id_returns_empty_list_when_none(self, repo, session):
-        session.query.return_value.filter.return_value.all.return_value = []
+        # find_by_customer_id uses .options(joinedload(...)).filter(...).all()
+        session.query.return_value.options.return_value.filter.return_value.all.return_value = []
         result = repo.find_by_customer_id(uuid4())
         assert result == []
 
@@ -150,7 +154,8 @@ class TestOrderRepositoryImpl:
             currency="USD",
         )
         order_row.items = [item_row]
-        session.query.return_value.filter.return_value.all.return_value = [order_row]
+        # find_by_customer_id uses .options(joinedload(...)).filter(...).all()
+        session.query.return_value.options.return_value.filter.return_value.all.return_value = [order_row]
         result = repo.find_by_customer_id(customer_id)
         assert len(result) == 1
         assert result[0].order_id == order_id

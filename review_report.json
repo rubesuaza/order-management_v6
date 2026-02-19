@@ -1,0 +1,28 @@
+{
+  "status": "complete",
+  "structure_compliance": {
+    "score": 100,
+    "missing_files": []
+  },
+  "domain_compliance": {
+    "score": 100,
+    "missing_entities": [],
+    "notes": "Entidades verificadas: Order (aggregate root con order_id, customer_id, items, status, shipping_address, billing_address), OrderItem (product_id, product_name, quantity, unit_price), Address (value object: street, city, state, zip_code, country), Money (value object: amount, currency), OrderStatus (PENDING, PAID, SHIPPED, CANCELLED). Invariantes presentes: mínimo un ítem por orden, mínimo 10.00 USD para PAID, transiciones de estado correctas, validaciones en OrderItem y Money."
+  },
+  "test_results": {
+    "command_executed": "python -m pytest tests/ -v --tb=short",
+    "passed": true,
+    "total_tests": 69,
+    "failures": 0,
+    "output_summary": "69 passed in ~1.9s. Cobertura ~83% en src/order_management."
+  },
+  "gaps": [
+    {
+      "severity": "low",
+      "category": "documentation",
+      "description": "No existen los archivos de definición en /architecture/ (directory_structure.md, domain_definition.md, tech_stack.md). La auditoría se realizó contra la estructura y dominio observados en el código.",
+      "fix_suggestion": "Opcional: añadir carpeta architecture/ con los MD de referencia para futuras revisiones automatizadas."
+    }
+  ],
+  "next_recommended_action": "git_operations"
+}

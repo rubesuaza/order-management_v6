@@ -72,39 +72,61 @@ class Order:
             status=OrderStatus.PENDING,
         )
     
-    def calculate_total_amount(self) -> Money:
+    def _get_items_currency(self) -> str:
         """
-        Calculate the total amount of the order.
-        
-        Returns:
-            Money object representing the sum of all item subtotals
-            
-        Raises:
-            ValueError: If items have different currencies
+        Return the currency of the first item after validating all items share the same currency.
+        Raises ValueError if items have different currencies.
         """
         if not self.items:
-            return Money.zero("USD")
-        
-        # Get currency from first item
+            return "USD"
         currency = self.items[0].unit_price.currency
-        
-        # Validate all items have the same currency
         for item in self.items:
             if item.unit_price.currency != currency:
                 raise ValueError(
                     f"All items must have the same currency. Found {item.unit_price.currency} and {currency}"
                 )
-        
+        return currency
+
+    def calculate_total_amount(self) -> Money:
+        """
+        Calculate the total amount of the order.
+
+        Returns:
+            Money object representing the sum of all item subtotals
+
+        Raises:
+            ValueError: If items have different currencies
+        """
+        if not self.items:
+            return Money.zero("USD")
+        currency = self._get_items_currency()
         total = Money.zero(currency)
         for item in self.items:
             total = total + item.calculate_subtotal()
-        
         return total
     
+    def _meets_minimum_amount_for_payment(self) -> None:
+        """
+        Validate that order total meets the minimum required for PAID (10.00 USD).
+        Raises InvalidOrderStateException if not met.
+        """
+        total = self.calculate_total_amount()
+        minimum_amount = Money.usd(Decimal("10.00"))
+        if total.currency != minimum_amount.currency:
+            raise InvalidOrderStateException(
+                f"Cannot validate minimum amount: order currency is {total.currency}, "
+                f"but minimum is in {minimum_amount.currency}"
+            )
+        if total < minimum_amount:
+            raise InvalidOrderStateException(
+                f"Order total ({total.amount} {total.currency}) must be at least "
+                f"{minimum_amount.amount} {minimum_amount.currency} to be marked as PAID"
+            )
+
     def mark_as_paid(self) -> None:
         """
         Transition order to PAID status.
-        
+
         Raises:
             InvalidOrderStateException: If order is not in PENDING status
             InvalidOrderStateException: If total amount is less than 10.00 USD
@@ -114,22 +136,7 @@ class Order:
                 f"Cannot mark order as PAID from {self.status.value} status. "
                 "Only PENDING orders can be marked as PAID."
             )
-        
-        total = self.calculate_total_amount()
-        minimum_amount = Money.usd(Decimal("10.00"))
-        
-        if total.currency != minimum_amount.currency:
-            raise InvalidOrderStateException(
-                f"Cannot validate minimum amount: order currency is {total.currency}, "
-                f"but minimum is in {minimum_amount.currency}"
-            )
-        
-        if total < minimum_amount:
-            raise InvalidOrderStateException(
-                f"Order total ({total.amount} {total.currency}) must be at least "
-                f"{minimum_amount.amount} {minimum_amount.currency} to be marked as PAID"
-            )
-        
+        self._meets_minimum_amount_for_payment()
         self.status = OrderStatus.PAID
     
     def mark_as_shipped(self) -> None:
@@ -179,15 +186,13 @@ class Order:
                 "Only PENDING orders can be modified."
             )
         
-        # Validate currency consistency if there are existing items
         if self.items:
-            existing_currency = self.items[0].unit_price.currency
+            existing_currency = self._get_items_currency()
             if item.unit_price.currency != existing_currency:
                 raise ValueError(
                     f"Cannot add item with currency {item.unit_price.currency}. "
                     f"Order items must all use {existing_currency}"
                 )
-        
         self.items.append(item)
     
     def remove_item(self, item_id: UUID) -> None:
