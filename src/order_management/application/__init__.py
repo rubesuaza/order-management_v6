@@ -1,0 +1,4 @@
+"""
+Application Layer
+Contains use cases and application services.
+"""
